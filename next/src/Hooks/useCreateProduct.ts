@@ -1,16 +1,13 @@
-import { useMutation } from '@tanstack/react-query';
 
+
+import { queryClient } from '@/lib/api';
 import { ProductService } from '@/services/ProductService';
 import { ProductCreate } from '@/types/Product';
+import { useMutation } from '@tanstack/react-query';
 
 export const useCreateProduct = () => {
     return useMutation({
-        mutationFn: (product: ProductCreate) => ProductService.createProduct(product),
-        onSuccess: () => {
-            // Reset form ou redirecionamento
-        },
-        onError: (error: any) => {
-            console.error('Erro na criação:', error);
-        }
+        mutationFn: ProductService.createProduct,
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['products'] })
     });
 };

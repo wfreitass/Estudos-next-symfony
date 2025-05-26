@@ -1,30 +1,22 @@
-// services/products.ts
-import api from "@/lib/api";
+import { api } from "@/lib/api";
+import { Product, ProductCreate } from "@/types/Product";
+
+
 
 export const ProductService = {
-    async getAllProducts() {
-        const response = await api.get("/produtos");
-        return response.data;
+    async getAllProducts(): Promise<Product[]> {
+        return api.get('/products');
     },
 
-    async getProduct(id: string) {
-        const response = await api.get(`/produtos/${id}`);
-        return response.data;
+    async getProduct(id: string): Promise<Product> {
+        return api.get(`/products/${id}`);
     },
 
-    async createProduct(data: any) {
-        const response = await api.post("/produtos", data);
-        return response.data;
+    async createProduct(data: ProductCreate): Promise<Product> {
+        return api.post('/products', data);
     },
 
-    async updateProduct(id: string, data: any) {
-        const response = await api.put(`/produtos/${id}`, data);
-        return response.data;
-    },
-
-    async deleteProduct(id: string) {
-        const response = await api.delete(`/produtos/${id}`);
-        return response.data;
+    async updateProduct(id: string, data: Partial<ProductCreate>): Promise<Product> {
+        return api.patch(`/products/${id}`, data);
     }
-}
-
+};
